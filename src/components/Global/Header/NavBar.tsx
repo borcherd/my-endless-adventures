@@ -130,7 +130,7 @@ const MenuLinks = () => {
       pb={{ base: 4, md: 0 }}
     >
       {menuItems.map((item) => (
-        <MenuItem to={item.href}>{item.name}</MenuItem>
+        <MenuItem to={item.href} key={'test'}>{item.name}</MenuItem> 
       ))}
     </Stack>
   );
@@ -163,7 +163,7 @@ const NavBarContainer = ({
       justify="space-between"
       wrap="wrap"
       w="100%"
-      mb={8}
+      // mb={8}
       p={8}
       bg={{ base: "black", md: "black" }}
       color={{ base: "white", md: "white" }}

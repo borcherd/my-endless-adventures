@@ -99,6 +99,15 @@ export const theme = extendTheme({
         fontSize: "25px",
       },
     },
+    h4: {
+      fontSize: "24px",
+      fontWeight: 400,
+      fontFamily: "Nunito, sans-serif",
+
+      [consts.mediaQueryCss.mobileL]: {
+        fontSize: "18px",
+      },
+    },
   },
   styles: {
     global: {
