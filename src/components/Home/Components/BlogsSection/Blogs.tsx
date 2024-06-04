@@ -3,7 +3,7 @@ import { Box, Grid, GridItem, Image as ChakraImage, Flex, Divider, Text } from "
 
 export function BlogsSection() {
   const imageArray = Object.values(blogsAssets);
-  return (    <Box width={'100%'} textAlign={'center'} pt={6}> 
+  return (    <Box width={'100%'} textAlign={'center'} > 
 
     <Flex align="center" px={6}>
     <Divider borderColor="black" flex="1"  />

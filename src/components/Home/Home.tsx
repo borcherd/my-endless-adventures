@@ -1,26 +1,28 @@
-import { Box, Flex , Text, Divider, Grid, GridItem} from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import * as home_components from "./Components";
 
 export function Home() {
-  return <Box><home_components.CarrouselSection/>
- <Grid
-      templateColumns={{
-        base: "1fr",       // 1 column for small screens
-        sm: "3fr 1fr"      // 75% and 25% columns for larger screens
-      }}
-      templateRows={{
-        base: "repeat(2, 1fr)", // 2 rows for small screens
-        sm: "1fr"               // 1 row for larger screens
-      }}
-      gap={6} // Adjust the gap between grid items as needed
-      width="100%" // Ensure the grid takes full width of its container
+  return <Box>
+    <home_components.CarrouselSection/>
+  <Flex
+      direction={{ base: 'column', md: 'row' }}
+      gap={{base: '0', md: '6' }}
+      width="100%"
+      pt={'6'}
     >
-    
-    <GridItem>       <home_components.BlogsSection/>
-</GridItem>
-    <GridItem>       <home_components.AboutSection/>
-
-      </GridItem>
-  </Grid>
+      <Box
+        flex={{ base: '1 1 auto', md: '3 1 0%' }}
+        width={{ base: '100%', md: '75%' }}
+      >
+        <home_components.BlogsSection />
+      </Box>
+      <Box
+        flex={{ base: '1 1 auto', md: '1 1 0%' }}
+        width={{ base: '100%', md: '25%' }}
+        alignSelf={{ base: 'flex-start', md: 'stretch' }}
+      >
+        <home_components.AboutSection />
+      </Box>
+    </Flex>
   </Box>;
 }

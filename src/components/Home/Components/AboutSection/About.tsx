@@ -3,7 +3,7 @@ import * as assets from "@/assets"; // Adjust the import path as necessary
 
 export function AboutSection() {
   return (
-    <Box width="100%" textAlign="center" pt={6}>
+    <Box width="100%" textAlign="center" >
       <Stack spacing={6} >
         <Flex align="center">
           <Divider borderColor="black" flex="1" />

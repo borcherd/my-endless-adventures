@@ -14,13 +14,15 @@ export function PageWrapper({
       <div className="flex min-h-screen flex-col ">
         <global_components.NavBar />
         <Box backgroundColor={'#FCF3E2'} width={'100%'}>
-        <Box maxWidth={{
-          base: "100%",
-          sm: "100%",
-          md: "75%",
-          lg: "66%",
-          xl: "55%",
-        }} 
+        <Box
+        //  maxWidth={{
+        //   base: "100%",
+        //   sm: "100%",
+        //   md: "90%",
+        //   lg: "85%",
+        //   xl: "80%",
+        // }} 
+        maxWidth={'100%'}
         mx="auto"
         >
           {children}
