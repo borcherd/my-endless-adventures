@@ -16,8 +16,8 @@ export function Home() {
                 >
                     <home_components.AboutSection />
                 </Box>
-                <home_components.InstagramFeed />
-            </Flex>
+            </Flex>{' '}
+            <home_components.InstagramFeed />
         </Box>
     )
 }
