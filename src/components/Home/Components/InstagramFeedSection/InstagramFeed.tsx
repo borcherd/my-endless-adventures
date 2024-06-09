@@ -10,8 +10,8 @@ const responsiveSettings = [
     {
         breakpoint: 800,
         settings: {
-            slidesToShow: 4,
-            slidesToScroll: 4,
+            slidesToShow: 3,
+            slidesToScroll: 3,
         },
     },
     {
@@ -21,7 +21,8 @@ const responsiveSettings = [
             slidesToScroll: 2,
         },
     },
-]
+];
+
 
 export function InstagramFeed() {
     const [posts, setPosts] = useState<consts.IInstagramPost[]>([])
