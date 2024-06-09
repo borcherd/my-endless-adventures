@@ -1,1 +1,1 @@
-export * from "./media-queries.consts";
+export * from './media-queries.consts'

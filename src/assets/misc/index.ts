@@ -1,1 +1,1 @@
-export {default as MISC_ABOUT} from "./about.jpg";
+export { default as MISC_ABOUT } from './about.jpg'

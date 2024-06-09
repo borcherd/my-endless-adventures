@@ -1,175 +1,152 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  Stack,
-  Collapse,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { useLottie, LottieOptions } from "lottie-react";
+'use client'
+import React, { useEffect, useState } from 'react'
+import { Box, Flex, Text, Stack, Collapse, useDisclosure } from '@chakra-ui/react'
+import { useLottie, LottieOptions } from 'lottie-react'
 
-import Link from "next/link";
-import Image from "next/image";
+import Link from 'next/link'
+import Image from 'next/image'
 
-import * as global_components from "@/components/Global";
-import * as assets_icons from "@/assets/icons";
-import * as assets from "@/assets";
+import * as global_components from '@/components/Global'
+import * as assets_icons from '@/assets/icons'
+import * as assets from '@/assets'
 
 const defaultLottieOptions: LottieOptions = {
-  animationData: assets.HAMBURGER_LOTTIE,
-  loop: true,
-  autoplay: false,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
-};
+    animationData: assets.HAMBURGER_LOTTIE,
+    loop: true,
+    autoplay: false,
+    rendererSettings: {
+        preserveAspectRatio: 'xMidYMid slice',
+    },
+}
 
 const defaultLottieStyle = {
-  height: 24,
-  width: 24,
-};
+    height: 24,
+    width: 24,
+}
 
 const menuItems = [
-  { name: "Bestemming", href: "/" },
-  { name: "Reistips", href: "/" },
-  { name: "Samenwerking", href: "/" },
-  { name: "Contact", href: "/" },
-];
+    { name: 'Bestemming', href: '/' },
+    { name: 'Reistips', href: '/' },
+    { name: 'Samenwerking', href: '/' },
+    { name: 'Contact', href: '/' },
+]
 
 export const NavBar = () => {
-  const { isOpen, onToggle } = useDisclosure();
-  const [isOpenState, setIsOpenState] = useState<boolean>(false);
+    const { isOpen, onToggle } = useDisclosure()
+    const [isOpenState, setIsOpenState] = useState<boolean>(false)
 
-  useEffect(() => {
-    setIsOpenState(!isOpen);
-  }, [isOpen]);
+    useEffect(() => {
+        setIsOpenState(!isOpen)
+    }, [isOpen])
 
-  return (
-    <NavBarContainer>
-      <Flex
-        width={"100%"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-      >
-        <global_components.Logo />
-        <MenuToggle isOpen={isOpenState} toggle={onToggle} />
-        <Box display={{ base: "none", md: "block" }}>
-          <MenuLinks />
+    return (
+        <NavBarContainer>
+            <Flex width={'100%'} alignItems={'center'} justifyContent={'space-between'}>
+                <global_components.Logo />
+                <MenuToggle isOpen={isOpenState} toggle={onToggle} />
+                <Box display={{ base: 'none', md: 'block' }}>
+                    <MenuLinks />
+                </Box>
+                <Box display={{ base: 'none', md: 'block' }}>
+                    <SocialLinks />
+                </Box>
+            </Flex>
+            <Collapse unmountOnExit in={isOpen} animateOpacity>
+                <MenuLinks />
+                <SocialLinks />
+            </Collapse>
+        </NavBarContainer>
+    )
+}
+
+const MenuToggle = ({ toggle, isOpen }: { toggle: () => void; isOpen: boolean }) => {
+    const { View: lottieView, goToAndStop } = useLottie(defaultLottieOptions, defaultLottieStyle)
+
+    return (
+        <Box
+            display={{ base: 'block', md: 'none' }}
+            onClick={() => {
+                toggle()
+                goToAndStop(isOpen ? 37 : 0, true)
+            }}
+        >
+            <div className={'mb-4 mt-0'}>{lottieView}</div>
         </Box>
-        <Box display={{ base: "none", md: "block" }}>
-          <SocialLinks />
-        </Box>
-      </Flex>
-      <Collapse unmountOnExit in={isOpen} animateOpacity>
-        <MenuLinks />
-        <SocialLinks />
-      </Collapse>
-    </NavBarContainer>
-  );
-};
-
-const MenuToggle = ({
-  toggle,
-  isOpen,
-}: {
-  toggle: () => void;
-  isOpen: boolean;
-}) => {
-  const { View: lottieView, goToAndStop } = useLottie(
-    defaultLottieOptions,
-    defaultLottieStyle
-  );
-
-  return (
-    <Box
-      display={{ base: "block", md: "none" }}
-      onClick={() => {
-        toggle();
-        goToAndStop(isOpen ? 37 : 0, true);
-      }}
-    >
-      <div className={"mb-4 mt-0"}>{lottieView}</div>
-    </Box>
-  );
-};
+    )
+}
 
 const MenuItem = ({
-  children,
-  isLast,
-  to = "/",
-  ...rest
+    children,
+    isLast,
+    to = '/',
+    ...rest
 }: {
-  children: React.ReactNode;
-  isLast?: boolean;
-  to?: string;
+    children: React.ReactNode
+    isLast?: boolean
+    to?: string
 }) => {
-  return (
-    <Link href={to}>
-      <Text
-        fontWeight={{ base: 500, md: 700 }}
-        fontSize={{ base: "medium", md: "x-large" }}
-        display="block"
-        {...rest}
-      >
-        {children}
-      </Text>
-    </Link>
-  );
-};
+    return (
+        <Link href={to}>
+            <Text
+                fontWeight={{ base: 500, md: 700 }}
+                fontSize={{ base: 'medium', md: 'x-large' }}
+                display="block"
+                {...rest}
+            >
+                {children}
+            </Text>
+        </Link>
+    )
+}
 
 const MenuLinks = () => {
-  return (
-    <Stack
-      spacing={{ base: 4, md: 8 }}
-      align={{ base: "start", md: "center" }}
-      justify={{ base: "center", md: "center" }}
-      direction={{ base: "column", md: "row" }}
-      pt={{ base: 4, md: 0 }}
-      pb={{ base: 4, md: 0 }}
-    >
-      {menuItems.map((item) => (
-        <MenuItem to={item.href} key={'test'}>{item.name}</MenuItem> 
-      ))}
-    </Stack>
-  );
-};
+    return (
+        <Stack
+            spacing={{ base: 4, md: 8 }}
+            align={{ base: 'start', md: 'center' }}
+            justify={{ base: 'center', md: 'center' }}
+            direction={{ base: 'column', md: 'row' }}
+            pt={{ base: 4, md: 0 }}
+            pb={{ base: 4, md: 0 }}
+        >
+            {menuItems.map((item) => (
+                <MenuItem to={item.href} key={'test'}>
+                    {item.name}
+                </MenuItem>
+            ))}
+        </Stack>
+    )
+}
 
 const SocialLinks = () => {
-  return (
-    <Stack direction={"row"} spacing={6}>
-      {Object.values(assets_icons).map((Icon) => {
-        return (
-          <Box cursor={"pointer"} key={Math.random()}>
-            <Image height={24} width={24} src={Icon} alt="img"></Image>
-          </Box>
-        );
-      })}
-    </Stack>
-  );
-};
+    return (
+        <Stack direction={'row'} spacing={6}>
+            {Object.values(assets_icons).map((Icon) => {
+                return (
+                    <Box cursor={'pointer'} key={Math.random()}>
+                        <Image height={24} width={24} src={Icon} alt="img"></Image>
+                    </Box>
+                )
+            })}
+        </Stack>
+    )
+}
 
-const NavBarContainer = ({
-  children,
-  ...props
-}: {
-  children: React.ReactNode;
-}) => {
-  return (
-    <Flex
-      as="nav"
-      align="center"
-      justify="space-between"
-      wrap="wrap"
-      w="100%"
-      // mb={8}
-      p={8}
-      bg={{ base: "black", md: "black" }}
-      color={{ base: "white", md: "white" }}
-      {...props}
-    >
-      {children}
-    </Flex>
-  );
-};
+const NavBarContainer = ({ children, ...props }: { children: React.ReactNode }) => {
+    return (
+        <Flex
+            as="nav"
+            align="center"
+            justify="space-between"
+            wrap="wrap"
+            w="100%"
+            // mb={8}
+            p={8}
+            bg={{ base: 'black', md: 'black' }}
+            color={{ base: 'white', md: 'white' }}
+            {...props}
+        >
+            {children}
+        </Flex>
+    )
+}

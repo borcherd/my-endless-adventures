@@ -1,1 +1,1 @@
-export { default as HAMBURGER_LOTTIE } from "./hamburger-lottie.json";
+export { default as HAMBURGER_LOTTIE } from './hamburger-lottie.json'
