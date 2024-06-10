@@ -1,4 +1,4 @@
-import { Flex, Divider, Box, Text, Image as ChakraImage } from '@chakra-ui/react'
+import { Flex, Divider, Box, Text, Image as ChakraImage, Skeleton, SimpleGrid } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import * as consts from '@/consts'
 import { Slide } from 'react-slideshow-image'
@@ -10,8 +10,8 @@ const responsiveSettings = [
     {
         breakpoint: 800,
         settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
+            slidesToShow: 5,
+            slidesToScroll: 1,
         },
     },
     {
@@ -21,11 +21,18 @@ const responsiveSettings = [
             slidesToScroll: 2,
         },
     },
-];
-
+    {
+        breakpoint: 300,
+        settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+        },
+    },
+]
 
 export function InstagramFeed() {
     const [posts, setPosts] = useState<consts.IInstagramPost[]>([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         async function fetchPosts() {
@@ -42,13 +49,19 @@ export function InstagramFeed() {
 
                 const data: consts.IInstagramPost[] = (await response.json()).data
                 setPosts(data)
+                setLoading(false)
             } catch (error) {
                 console.error('Error fetching Instagram posts:', error)
+                setLoading(false)
             }
         }
 
         fetchPosts()
     }, [])
+
+    useEffect(() => {
+        console.log('posts', posts)
+    }, [posts])
 
     return (
         <Box width={'100%'} textAlign={'center'}>
@@ -60,10 +73,52 @@ export function InstagramFeed() {
                 <Divider borderColor="black" flex="1" />
             </Flex>
 
-            <Slide slidesToScroll={2} slidesToShow={2} indicators={true} responsive={responsiveSettings}>
-                {posts.length > 0 ? (
-                    posts.map((item, index) => (
-                        <Box key={item.id} p={2}>
+            {loading ? (
+                <Slide
+                    slidesToScroll={2}
+                    slidesToShow={2}
+                    indicators={false}
+                    autoplay={true}
+                    responsive={responsiveSettings}
+                    canSwipe={true}
+                    easing={'ease'}
+                    duration={2000}
+                    arrows={false}
+                    pauseOnHover={true}
+                    infinite={true}
+                    transitionDuration={1000}
+                >
+                    {Array(8)
+                        .fill(0)
+                        .map((_, index) => (
+                            <Box key={index} p={2}>
+                                <Skeleton height="300px" borderRadius="10px" />
+                            </Box>
+                        ))}
+                </Slide>
+            ) : (
+                <Slide
+                    slidesToScroll={2}
+                    slidesToShow={2}
+                    indicators={false}
+                    autoplay={true}
+                    responsive={responsiveSettings}
+                    canSwipe={true}
+                    easing={'ease'}
+                    duration={2000}
+                    arrows={false}
+                    pauseOnHover={true}
+                    infinite={true}
+                    transitionDuration={1000}
+                >
+                    {posts.map((item, index) => (
+                        <Box
+                            key={item.id}
+                            p={2}
+                            onClick={() => {
+                                console.log('clicked', item)
+                            }}
+                        >
                             <ChakraImage
                                 src={item.media_type === 'VIDEO' ? item.thumbnail_url : item.media_url}
                                 alt={`grid-image-${index}`}
@@ -73,11 +128,9 @@ export function InstagramFeed() {
                                 width="100%"
                             />
                         </Box>
-                    ))
-                ) : (
-                    <Text>Loading...</Text>
-                )}
-            </Slide>
+                    ))}
+                </Slide>
+            )}
         </Box>
     )
 }
