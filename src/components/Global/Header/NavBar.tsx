@@ -110,7 +110,7 @@ const MenuLinks = () => {
             pb={{ base: 4, md: 0 }}
         >
             {menuItems.map((item) => (
-                <MenuItem to={item.href} key={'test'}>
+                <MenuItem to={item.href} key={item.name}>
                     {item.name}
                 </MenuItem>
             ))}
