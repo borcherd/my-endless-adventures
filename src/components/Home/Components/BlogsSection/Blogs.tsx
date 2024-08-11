@@ -50,8 +50,9 @@ export function BlogsSection() {
                                 padding={2}
                                 gap={4}
                                 key={blog.sys.id}
+                                alignItems={'center'}
                             >
-                                <ChakraImage borderRadius={10} height={16} width={16} src={imageUrl} alt="blog1" />
+                                <ChakraImage borderRadius={10} height={20} width={20} src={imageUrl} alt="blog1" />
                                 <Flex
                                     flexDirection={'column'}
                                     justifyContent={'center'}
@@ -59,7 +60,7 @@ export function BlogsSection() {
                                     width={'100%'}
                                 >
                                     <Text as={'h4'} textStyle={'h4'}>
-                                        {/* {blog.fields.entryName.replace(/\b\w/g, (char) => char.toUpperCase())} */}
+                                        {blog.fields.entryName.replace(/\b\w/g, (char) => char.toUpperCase())}
                                     </Text>
                                     <Divider borderColor="black" borderStyle={'dashed'} flex="1" marginTop={2} />{' '}
                                     <Text as={'p'} textStyle={'p'} marginTop={2}>

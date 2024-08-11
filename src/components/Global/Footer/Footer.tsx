@@ -14,15 +14,6 @@ export const Footer = () => {
             <Text textStyle={'p'} as={'p'}>
                 My Endless Adventures © 2024
             </Text>
-            <Image
-                display={{
-                    base: 'none',
-                    md: 'block',
-                }}
-                src={assets.HEART_ICON.src}
-                width={4}
-                height={4}
-            />
             <SocialLinks />
         </Flex>
     )

@@ -7,8 +7,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import * as global_components from '@/components/Global'
-import * as assets_icons from '@/assets/icons'
 import * as assets from '@/assets'
+import * as consts from '@/consts'
 
 const defaultLottieOptions: LottieOptions = {
     animationData: assets.HAMBURGER_LOTTIE,
@@ -29,13 +29,6 @@ const menuItems = [
     { name: 'Bestemmingen', href: '/' },
     { name: 'Over mij', href: '/' },
     { name: 'Contact', href: '/' },
-]
-
-const socialItems = [
-    { href: 'https://www.facebook.com/', iconSrc: assets_icons.FACEBOOK_ICON.src },
-    { href: 'https://www.instagram.com/', iconSrc: assets_icons.INSTAGRAM_ICON.src },
-    { href: 'https://www.pinterest.com/', iconSrc: assets_icons.PINTEREST_ICON.src },
-    { href: 'https://www.tiktok.com/', iconSrc: assets_icons.TIKTOK_ICON.src },
 ]
 
 export const NavBar = () => {
@@ -130,11 +123,11 @@ const MenuLinks = () => {
 export const SocialLinks = () => {
     return (
         <Stack direction={'row'} spacing={6}>
-            {socialItems.map((Icon) => {
+            {consts.socialItems.map((Icon) => {
                 return (
-                    <Box cursor={'pointer'} key={Math.random()}>
+                    <Link href={Icon.href} target="_blank" key={Math.random()}>
                         <Image height={24} width={24} src={Icon.iconSrc} alt="img"></Image>
-                    </Box>
+                    </Link>
                 )
             })}
         </Stack>
