@@ -1,21 +1,22 @@
 'use client'
 
 import * as assets from '@/assets'
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import Image from 'next/image'
 
 export function Logo() {
     return (
-        // <Flex alignItems={'center'} justifyItems={'center'}>
-        // <Image width={72} height={72} src={assets.LOGO_SVG} alt="logo" hidden={true} />
-
-        //     <Flex flexDirection={'column'}>
-        //     <Text as="h4" textStyle="h4">My Endless</Text>
-        //     <Text as="h4" textStyle="h4">Adventures</Text>
-        //     </Flex>
-        //   </Flex>
-        <Text as="h4" textStyle="h4">
-            LOGO
-        </Text>
+        <Box
+            width={{ base: '100px', md: '150px' }} // Width: 100px on mobile, 150px on desktop
+            height={{ base: '50px', md: '75px' }} // Height: 50px on mobile, 75px on desktop
+            position="relative" // Required for next/image to fill the container
+        >
+            <Image
+                src={assets.LOGO.src}
+                alt="logo"
+                layout="fill" // Fill the container
+                objectFit="contain" // Contain the image within the box
+            />
+        </Box>
     )
 }

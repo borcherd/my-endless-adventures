@@ -3,8 +3,8 @@ import * as assets from '@/assets' // Adjust the import path as necessary
 
 export function AboutSection() {
     return (
-        <Box width="100%" textAlign="center">
-            <Stack spacing={6}>
+        <Box width="100%" textAlign="center" px={6}>
+            <Stack>
                 <Flex align="center">
                     <Divider borderColor="black" flex="1" />
                     <Text mx="4" whiteSpace="nowrap">
@@ -12,7 +12,7 @@ export function AboutSection() {
                     </Text>
                     <Divider borderColor="black" flex="1" />
                 </Flex>
-                <Box height="300px" overflow="hidden" px={6}>
+                <Box height="300px" overflow="hidden">
                     <ChakraImage
                         src={assets.MISC_ABOUT.src}
                         alt="image"
@@ -22,7 +22,7 @@ export function AboutSection() {
                         borderRadius={10}
                     />
                 </Box>
-                <Text px={6}>
+                <Text>
                     My Endless Adventure is een reisblog waar ik al mijn ervaringen en tips deel, zodat jullie het beste
                     uit jullie reis kunnen halen en een onvergetelijke ervaring zullen hebben.
                     <br />

@@ -1,34 +1,39 @@
 'use client'
 
 import * as global_components from '@/components/Global'
-import { Box } from '@chakra-ui/react'
-
+import { Box, Stack, useEditable } from '@chakra-ui/react'
+import * as context from '@/context'
+import { useBlogs } from '@/hooks/useBlogs'
+import { useInstagramPosts } from '@/hooks/useInstagramPosts'
+import { useContext, useEffect } from 'react'
 export function PageWrapper({
     children,
     ...props
 }: Readonly<{
     children: React.ReactNode
 }>) {
+    const { finalized } = useContext(context.loadingStateContext)
+    const { fetchPosts: fetchBlogs } = useBlogs()
+    const { fetchPosts: fetchInstagramPosts } = useInstagramPosts()
+
+    useEffect(() => {
+        fetchBlogs()
+        fetchInstagramPosts()
+    }, [])
+
     return (
-        <div className="relative">
-            <div className="flex min-h-screen flex-col ">
-                <global_components.NavBar />
-                <Box backgroundColor={'#FCF3E2'} width={'100%'}>
-                    <Box
-                        //  maxWidth={{
-                        //   base: "100%",
-                        //   sm: "100%",
-                        //   md: "90%",
-                        //   lg: "85%",
-                        //   xl: "80%",
-                        // }}
-                        maxWidth={'100%'}
-                        mx="auto"
-                    >
-                        {children}
-                    </Box>
+        <Stack spacing={0} backgroundColor={'#FCF3E2'} width={'100%'} minHeight={'100vh'}>
+            <global_components.NavBar />
+            {finalized ? (
+                <Box flex="1" maxWidth={'100%'}>
+                    {children}
                 </Box>
-            </div>
-        </div>
+            ) : (
+                <Box flex="1" justifyContent={'center'} alignContent={'center'}>
+                    <global_components.GlobalLoadingAnimation />
+                </Box>
+            )}
+            <global_components.Footer />
+        </Stack>
     )
 }

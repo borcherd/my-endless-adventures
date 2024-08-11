@@ -25,10 +25,17 @@ const defaultLottieStyle = {
 }
 
 const menuItems = [
-    { name: 'Bestemming', href: '/' },
-    { name: 'Reistips', href: '/' },
-    { name: 'Samenwerking', href: '/' },
+    { name: 'Blogs', href: '/' },
+    { name: 'Bestemmingen', href: '/' },
+    { name: 'Over mij', href: '/' },
     { name: 'Contact', href: '/' },
+]
+
+const socialItems = [
+    { href: 'https://www.facebook.com/', iconSrc: assets_icons.FACEBOOK_ICON.src },
+    { href: 'https://www.instagram.com/', iconSrc: assets_icons.INSTAGRAM_ICON.src },
+    { href: 'https://www.pinterest.com/', iconSrc: assets_icons.PINTEREST_ICON.src },
+    { href: 'https://www.tiktok.com/', iconSrc: assets_icons.TIKTOK_ICON.src },
 ]
 
 export const NavBar = () => {
@@ -42,7 +49,9 @@ export const NavBar = () => {
     return (
         <NavBarContainer>
             <Flex width={'100%'} alignItems={'center'} justifyContent={'space-between'}>
-                <global_components.Logo />
+                <Link href={'/'}>
+                    <global_components.Logo />
+                </Link>
                 <MenuToggle isOpen={isOpenState} toggle={onToggle} />
                 <Box display={{ base: 'none', md: 'block' }}>
                     <MenuLinks />
@@ -118,13 +127,13 @@ const MenuLinks = () => {
     )
 }
 
-const SocialLinks = () => {
+export const SocialLinks = () => {
     return (
         <Stack direction={'row'} spacing={6}>
-            {Object.values(assets_icons).map((Icon) => {
+            {socialItems.map((Icon) => {
                 return (
                     <Box cursor={'pointer'} key={Math.random()}>
-                        <Image height={24} width={24} src={Icon} alt="img"></Image>
+                        <Image height={24} width={24} src={Icon.iconSrc} alt="img"></Image>
                     </Box>
                 )
             })}
