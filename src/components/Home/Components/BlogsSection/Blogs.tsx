@@ -44,7 +44,7 @@ export function BlogsSection() {
                         const imageUrl = assets[previewImageId].fields.file.url
                         return (
                             <Flex
-                                backgroundColor={'white'}
+                                backgroundColor={'#F3E4C7'}
                                 border={'1px solid black'}
                                 borderRadius={10}
                                 padding={2}
