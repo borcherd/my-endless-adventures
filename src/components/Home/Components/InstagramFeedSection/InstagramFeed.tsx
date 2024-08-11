@@ -1,10 +1,10 @@
 import { Flex, Divider, Box, Text, Image as ChakraImage, Skeleton, SimpleGrid } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import * as consts from '@/consts'
 import { Slide } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import * as context from '@/context'
+import { useInstagramPosts } from '@/hooks/useInstagramPosts'
 
 const responsiveSettings = [
     {
@@ -31,49 +31,19 @@ const responsiveSettings = [
 ]
 
 export function InstagramFeed() {
-    const [posts, setPosts] = useState<consts.IInstagramPost[]>([])
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        async function fetchPosts() {
-            try {
-                const response = await fetch('/api/fetch-instagram-posts', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        limit: 8, // number of posts to fetch
-                    }),
-                })
-
-                const data: consts.IInstagramPost[] = (await response.json()).data
-                setPosts(data)
-                setLoading(false)
-            } catch (error) {
-                console.error('Error fetching Instagram posts:', error)
-                setLoading(false)
-            }
-        }
-
-        fetchPosts()
-    }, [])
-
-    useEffect(() => {
-        console.log('posts', posts)
-    }, [posts])
+    const { instagramPosts } = useInstagramPosts()
 
     return (
-        <Box width={'100%'} textAlign={'center'}>
-            <Flex align="center" px={6}>
-                <Divider borderColor="black" flex="1" />
-                <Text mx="4" whiteSpace="nowrap">
-                    Instagram feed
-                </Text>
-                <Divider borderColor="black" flex="1" />
-            </Flex>
+        instagramPosts && (
+            <Box width={'100%'} textAlign={'center'}>
+                <Flex align="center" px={6}>
+                    <Divider borderColor="black" flex="1" />
+                    <Text mx="4" whiteSpace="nowrap">
+                        Instagram feed
+                    </Text>
+                    <Divider borderColor="black" flex="1" />
+                </Flex>
 
-            {loading ? (
                 <Slide
                     slidesToScroll={2}
                     slidesToShow={2}
@@ -88,30 +58,7 @@ export function InstagramFeed() {
                     infinite={true}
                     transitionDuration={1000}
                 >
-                    {Array(8)
-                        .fill(0)
-                        .map((_, index) => (
-                            <Box key={index} p={2}>
-                                <Skeleton height="300px" borderRadius="10px" />
-                            </Box>
-                        ))}
-                </Slide>
-            ) : (
-                <Slide
-                    slidesToScroll={2}
-                    slidesToShow={2}
-                    indicators={false}
-                    autoplay={true}
-                    responsive={responsiveSettings}
-                    canSwipe={true}
-                    easing={'ease'}
-                    duration={2000}
-                    arrows={false}
-                    pauseOnHover={true}
-                    infinite={true}
-                    transitionDuration={1000}
-                >
-                    {posts.map((item, index) => (
+                    {instagramPosts?.map((item, index) => (
                         <Box
                             key={item.id}
                             p={2}
@@ -130,8 +77,8 @@ export function InstagramFeed() {
                         </Box>
                     ))}
                 </Slide>
-            )}
-        </Box>
+            </Box>
+        )
     )
 }
 

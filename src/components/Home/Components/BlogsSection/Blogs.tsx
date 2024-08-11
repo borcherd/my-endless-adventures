@@ -17,97 +17,67 @@ import {
     ModalCloseButton,
     useDisclosure,
     Button,
+    Skeleton,
+    Stack,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Slide } from 'react-slideshow-image'
-import { Blog, BlogsResponse, Asset } from './Blog.interfaces'
-
-const responsiveSettings = [
-    {
-        breakpoint: 800,
-        settings: {
-            slidesToShow: 3,
-            slidesToScroll: 1,
-        },
-    },
-    {
-        breakpoint: 500,
-        settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-        },
-    },
-    {
-        breakpoint: 300,
-        settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-        },
-    },
-]
+import * as context from '@/context'
+import { useBlogs } from '@/hooks/useBlogs'
 
 export function BlogsSection() {
-    const [blogs, setBlogs] = useState<Blog[]>([])
-    const [assets, setAssets] = useState<Record<string, Asset>>({})
-    const [selectedBlog, setSelectedBlog] = useState<Blog | null>(null)
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const isMobile = useBreakpointValue({ base: true, md: false })
-
-    useEffect(() => {
-        async function fetchPosts() {
-            try {
-                const response = await fetch('/api/fetch-blog-posts', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        limit: 8, // number of posts to fetch
-                    }),
-                })
-
-                const data: BlogsResponse = await response.json()
-                setBlogs([
-                    ...data.items,
-                    ...data.items,
-                    ...data.items,
-                    ...data.items,
-                    ...data.items,
-                    ...data.items,
-                    ...data.items,
-                    ...data.items,
-                ])
-                const assetMap = data.includes.Asset.reduce(
-                    (acc, asset) => {
-                        acc[asset.sys.id] = asset
-                        return acc
-                    },
-                    {} as Record<string, Asset>
-                )
-                setAssets(assetMap)
-            } catch (error) {
-                console.error('Error fetching blog posts:', error)
-            }
-        }
-
-        fetchPosts()
-    }, [])
-
-    const handleGridItemClick = (blog: Blog) => {
-        setSelectedBlog(blog)
-        onOpen()
-    }
-
+    const { blogs, assets } = useBlogs()
     return (
-        <Box width={'100%'} textAlign={'center'}>
-            <Flex align="center" px={6}>
-                <Divider borderColor="black" flex="1" />
-                <Text mx="4" whiteSpace="nowrap">
-                    Nieuwe blogs
-                </Text>
-                <Divider borderColor="black" flex="1" />
-            </Flex>
-            <Slide
+        <Box width={'100%'} textAlign={'center'} px={6}>
+            <Stack>
+                <Flex align="center">
+                    <Divider borderColor="black" flex="1" />
+                    <Text mx="4" whiteSpace="nowrap">
+                        Nieuwe blogs
+                    </Text>
+                    <Divider borderColor="black" flex="1" />
+                </Flex>
+
+                <Stack>
+                    {blogs?.map((blog) => {
+                        const previewImageId = blog.fields.previewImage.sys.id
+                        const imageUrl = assets[previewImageId].fields.file.url
+                        return (
+                            <Flex
+                                backgroundColor={'white'}
+                                border={'1px solid black'}
+                                borderRadius={10}
+                                padding={2}
+                                gap={4}
+                                key={blog.sys.id}
+                                alignItems={'center'}
+                            >
+                                <ChakraImage borderRadius={10} height={20} width={20} src={imageUrl} alt="blog1" />
+                                <Flex
+                                    flexDirection={'column'}
+                                    justifyContent={'center'}
+                                    alignItems={'start'}
+                                    width={'100%'}
+                                >
+                                    <Text as={'h4'} textStyle={'h4'}>
+                                        {blog.fields.entryName.replace(/\b\w/g, (char) => char.toUpperCase())}
+                                    </Text>
+                                    <Divider borderColor="black" borderStyle={'dashed'} flex="1" marginTop={2} />{' '}
+                                    <Text as={'p'} textStyle={'p'} marginTop={2}>
+                                        {blog.fields.content.content[0].content[0].value}
+                                    </Text>
+                                </Flex>
+                            </Flex>
+                        )
+                    })}
+                </Stack>
+            </Stack>
+        </Box>
+    )
+}
+
+{
+    /* <Slide
                 slidesToScroll={2}
                 slidesToShow={2}
                 indicators={false}
@@ -121,45 +91,37 @@ export function BlogsSection() {
                 infinite={true}
                 transitionDuration={1000}
             >
-                {blogs.map((blog) => {
-                    const previewImageId = blog.fields.previewImage.sys.id
-                    const imageUrl = assets[previewImageId].fields.file.url
-                    return (
-                        <Box key={blog.sys.id + Math.random()} onClick={() => handleGridItemClick(blog)} p={2}>
-                            <Box height="300px" overflow="hidden">
-                                <ChakraImage
-                                    src={imageUrl}
-                                    alt={`grid-image-${blog.sys.id}`}
-                                    objectFit="cover"
-                                    height="100%"
-                                    width="100%"
-                                    borderRadius={10}
-                                />
-                            </Box>
-                        </Box>
-                    )
-                })}
-                {blogs.map((blog) => {
-                    const previewImageId = blog.fields.previewImage.sys.id
-                    const imageUrl = assets[previewImageId].fields.file.url
-                    return (
-                        <Box key={blog.sys.id + Math.random()} onClick={() => handleGridItemClick(blog)} p={2}>
-                            <Box height="300px" overflow="hidden">
-                                <ChakraImage
-                                    src={imageUrl}
-                                    alt={`grid-image-${blog.sys.id}`}
-                                    objectFit="cover"
-                                    height="100%"
-                                    width="100%"
-                                    borderRadius={10}
-                                />
-                            </Box>
-                        </Box>
-                    )
-                })}
-            </Slide>
+                {loading
+                    ? Array(8)
+                          .fill(0)
+                          .map((_, index) => (
+                              <Box key={index} p={2}>
+                                  <Skeleton height="300px" borderRadius="10px" />
+                              </Box>
+                          ))
+                    : blogs.map((blog) => {
+                          const previewImageId = blog.fields.previewImage.sys.id
+                          const imageUrl = assets[previewImageId].fields.file.url
+                          return (
+                              <Box key={blog.sys.id + Math.random()} onClick={() => handleGridItemClick(blog)} p={2}>
+                                  <Box height="300px" overflow="hidden">
+                                      <ChakraImage
+                                          src={imageUrl}
+                                          alt={`grid-image-${blog.sys.id}`}
+                                          objectFit="cover"
+                                          height="100%"
+                                          width="100%"
+                                          borderRadius={10}
+                                      />
+                                  </Box>
+                              </Box>
+                          )
+                      })}
+            </Slide> */
+}
 
-            {selectedBlog && (
+{
+    /* {selectedBlog && (
                 <Modal isOpen={isOpen} onClose={onClose} isCentered size={isMobile ? 'full' : 'xl'}>
                     <ModalOverlay />
                     <ModalContent>
@@ -206,7 +168,5 @@ export function BlogsSection() {
                         </ModalFooter>
                     </ModalContent>
                 </Modal>
-            )}
-        </Box>
-    )
+            )} */
 }

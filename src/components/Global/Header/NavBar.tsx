@@ -7,8 +7,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import * as global_components from '@/components/Global'
-import * as assets_icons from '@/assets/icons'
 import * as assets from '@/assets'
+import * as consts from '@/consts'
 
 const defaultLottieOptions: LottieOptions = {
     animationData: assets.HAMBURGER_LOTTIE,
@@ -25,9 +25,9 @@ const defaultLottieStyle = {
 }
 
 const menuItems = [
-    { name: 'Bestemming', href: '/' },
-    { name: 'Reistips', href: '/' },
-    { name: 'Samenwerking', href: '/' },
+    { name: 'Blogs', href: '/' },
+    { name: 'Bestemmingen', href: '/' },
+    { name: 'Over mij', href: '/' },
     { name: 'Contact', href: '/' },
 ]
 
@@ -42,7 +42,9 @@ export const NavBar = () => {
     return (
         <NavBarContainer>
             <Flex width={'100%'} alignItems={'center'} justifyContent={'space-between'}>
-                <global_components.Logo />
+                <Link href={'/'}>
+                    <global_components.Logo />
+                </Link>
                 <MenuToggle isOpen={isOpenState} toggle={onToggle} />
                 <Box display={{ base: 'none', md: 'block' }}>
                     <MenuLinks />
@@ -118,14 +120,14 @@ const MenuLinks = () => {
     )
 }
 
-const SocialLinks = () => {
+export const SocialLinks = () => {
     return (
         <Stack direction={'row'} spacing={6}>
-            {Object.values(assets_icons).map((Icon) => {
+            {consts.socialItems.map((Icon) => {
                 return (
-                    <Box cursor={'pointer'} key={Math.random()}>
-                        <Image height={24} width={24} src={Icon} alt="img"></Image>
-                    </Box>
+                    <Link href={Icon.href} target="_blank" key={Math.random()}>
+                        <Image height={24} width={24} src={Icon.iconSrc} alt="img"></Image>
+                    </Link>
                 )
             })}
         </Stack>
