@@ -18,42 +18,12 @@ L.Icon.Default.mergeOptions({
     shadowUrl: markerShadow.src,
 })
 
-type Pin = {
-    position: [number, number] // Latitude, Longitude
-    title: string
-    description: string
-}
-
-// Component to adjust zoom level based on screen size
-const AdjustMapZoom = () => {
-    const map = useMap()
-
-    useEffect(() => {
-        // Check screen size and adjust zoom and center
-        const handleResize = () => {
-            if (window.innerWidth <= 768) {
-                // Mobile screen - zoom out to show the entire globe
-                map.setView([20, 0], 2)
-            } else {
-                // Desktop screen - set default zoom and center
-                map.setView([51.505, -0.09], 3)
-            }
-        }
-
-        // Initial check and event listener for screen resize
-        handleResize()
-        window.addEventListener('resize', handleResize)
-
-        return () => {
-            window.removeEventListener('resize', handleResize)
-        }
-    }, [map])
-
-    return null
-}
-
 export const MapWithPins: React.FC = () => {
     const { allPosts } = useBlogs()
+
+    setTimeout(function () {
+        window.dispatchEvent(new Event('resize'))
+    }, 50)
 
     // Static pins data
     const pins = useMemo(
@@ -86,10 +56,6 @@ export const MapWithPins: React.FC = () => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-
-                {/* Adjust zoom based on screen size */}
-                <AdjustMapZoom />
-
                 {/* Render static pins */}
                 {pins.map((pin, index) => (
                     <Marker key={index} position={pin.position}>

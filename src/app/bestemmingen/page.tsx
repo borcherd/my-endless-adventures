@@ -7,7 +7,7 @@ export default function AboutMe() {
     const Map = useMemo(
         () =>
             dynamic(() => import('@/components/Destinations/Destinations').then((mod) => mod.MapWithPins), {
-                loading: () => <p>A map is loading</p>,
+                loading: () => <></>,
                 ssr: false,
             }),
         []
