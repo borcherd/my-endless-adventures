@@ -95,6 +95,13 @@ export interface IBlog {
                 id: string
             }
         }
+        date: string
+        location: {
+            lat: number
+            lon: number
+        }
+        type: string[]
+        Continent: string[]
     }
 }
 
