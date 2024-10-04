@@ -1,5 +1,5 @@
 import * as global_components from '@/components/Global'
-import { Box, Fade, ScaleFade, Stack } from '@chakra-ui/react'
+import { Box, ScaleFade, Stack } from '@chakra-ui/react'
 import * as context from '@/context'
 import { useBlogs } from '@/hooks/useBlogs'
 import { useInstagramPosts } from '@/hooks/useInstagramPosts'
@@ -21,19 +21,27 @@ export function PageWrapper({
     }, [])
 
     return (
-        <Stack spacing={0} backgroundColor={'#FCF3E2'} width={'100%'}>
-            <global_components.NavBar />
-            <Box
-                flex="1"
-                maxWidth={'100%'}
-                position="relative"
-                minHeight={finalized ? 'auto' : '79vh'} // Fixed height while loading
-            >
+        <Stack spacing={0} backgroundColor={'#FCF3E2'} height="100vh" width="100%">
+            {/* Header */}
+            <Box as="header" zIndex={100}>
+                <global_components.NavBar />
+            </Box>
+
+            {/* Scrollable Content */}
+            <Box as="main" flex="1" overflowY="auto" backgroundColor="#FCF3E2" position="relative">
                 <ScaleFade in={finalized} unmountOnExit={false}>
-                    <Box width="100%" hidden={!finalized}>
+                    <Box
+                        width={{
+                            base: '100%',
+                            md: '75%',
+                        }}
+                        margin="auto"
+                        hidden={!finalized}
+                    >
                         {children}
                     </Box>
                 </ScaleFade>
+
                 {!finalized && (
                     <Box
                         position="absolute"
@@ -51,7 +59,11 @@ export function PageWrapper({
                     </Box>
                 )}
             </Box>
-            <global_components.Footer />
+
+            {/* Footer */}
+            <Box as="footer" zIndex={100}>
+                <global_components.Footer />
+            </Box>
         </Stack>
     )
 }

@@ -1,10 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export async function POST(request: NextRequest) {
-    const body = await request.json()
-
-    const { limit } = body
-
+export async function POST() {
     const spaceId = process.env.CONTENTFUL_SPACE_ID
     const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN
 
@@ -19,7 +15,7 @@ export async function POST(request: NextRequest) {
 
     try {
         const response = await fetch(
-            `https://cdn.contentful.com/spaces/${spaceId}/entries?content_type=blogPost&limit=${limit}&access_token=${accessToken}`
+            `https://cdn.contentful.com/spaces/${spaceId}/entries?content_type=blogPost&access_token=${accessToken}`
         )
 
         if (!response.ok) {

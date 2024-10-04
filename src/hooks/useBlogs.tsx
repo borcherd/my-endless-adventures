@@ -5,7 +5,10 @@ import * as consts from '@/consts'
 import * as context from '@/context'
 
 export const useBlogs = () => {
+    const [allPosts, setAllPosts] = useState<consts.IBlog[]>([])
     const [blogs, setBlogs] = useState<consts.IBlog[]>([])
+    const [guides, setGuides] = useState<consts.IBlog[]>([])
+    const [tips, setTips] = useState<consts.IBlog[]>([])
     const [assets, setAssets] = useState<Record<string, consts.IBlogAsset>>({})
     const { setBlogsLoadingFinalized } = useContext(context.loadingStateContext)
 
@@ -16,13 +19,26 @@ export const useBlogs = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    limit: 8, // number of posts to fetch
-                }),
             })
 
             const data: consts.IBlogsResponse = await response.json()
-            setBlogs([...data.items])
+
+            const sortedData = data.items.sort((a, b) => {
+                const dateA = new Date(a.fields.date)
+                const dateB = new Date(b.fields.date)
+                return dateB.getTime() - dateA.getTime()
+            })
+            setAllPosts([...sortedData])
+
+            const blogPosts = sortedData.filter((post) => post.fields.type.map((type) => type.trim()).includes('Blog'))
+            setBlogs([...blogPosts])
+            const guidePosts = sortedData.filter((post) =>
+                post.fields.type.map((type) => type.trim()).includes('Guide')
+            )
+            setGuides([...guidePosts])
+            const tipPosts = sortedData.filter((post) => post.fields.type.map((type) => type.trim()).includes('Tip'))
+            setTips([...tipPosts])
+
             const assetMap = data.includes.Asset.reduce(
                 (acc, asset) => {
                     acc[asset.sys.id] = asset
@@ -39,8 +55,8 @@ export const useBlogs = () => {
     }
 
     useEffect(() => {
-        fetchPosts()
+        if (!allPosts.length) fetchPosts()
     }, [])
 
-    return { blogs, assets, fetchPosts }
+    return { allPosts, blogs, guides, tips, assets, fetchPosts }
 }

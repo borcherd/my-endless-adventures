@@ -6,7 +6,6 @@ export const Footer = () => {
         <Flex
             backgroundColor={'black'}
             padding={2}
-            marginTop={2}
             textColor={'white'}
             justifyContent={'space-between'}
             alignItems={'center'}

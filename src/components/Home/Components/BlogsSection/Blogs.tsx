@@ -1,32 +1,10 @@
-import * as blogsAssets from '@/assets/blogs'
-import {
-    Box,
-    Grid,
-    GridItem,
-    Image as ChakraImage,
-    Flex,
-    Divider,
-    Text,
-    useBreakpointValue,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
-    Button,
-    Skeleton,
-    Stack,
-} from '@chakra-ui/react'
-import { useContext, useEffect, useState } from 'react'
-import { Slide } from 'react-slideshow-image'
-import * as context from '@/context'
+import { Box, Image as ChakraImage, Flex, Divider, Text, Stack } from '@chakra-ui/react'
 import { useBlogs } from '@/hooks/useBlogs'
+import * as _assets from '@/assets'
+import Image from 'next/image'
 
 export function BlogsSection() {
-    const { blogs, assets } = useBlogs()
+    const { allPosts, assets } = useBlogs()
     return (
         <Box width={'100%'} textAlign={'center'} px={6}>
             <Stack>
@@ -39,9 +17,9 @@ export function BlogsSection() {
                 </Flex>
 
                 <Stack>
-                    {blogs?.map((blog) => {
-                        const previewImageId = blog.fields.previewImage.sys.id
-                        const imageUrl = assets[previewImageId].fields.file.url
+                    {allPosts?.slice(0, 3).map((blog) => {
+                        const previewImageId = blog.fields.previewImage?.sys?.id
+                        const imageUrl = assets[previewImageId]?.fields.file.url
                         return (
                             <Flex
                                 backgroundColor={'#F3E4C7'}
@@ -58,14 +36,25 @@ export function BlogsSection() {
                                     justifyContent={'center'}
                                     alignItems={'start'}
                                     width={'100%'}
+                                    height={'100%'}
                                 >
-                                    <Text as={'h4'} textStyle={'h4'}>
+                                    <Text as={'h4'} textStyle={'h4'} textAlign={'start'}>
                                         {blog.fields.entryName.replace(/\b\w/g, (char) => char.toUpperCase())}
                                     </Text>
                                     <Divider borderColor="black" borderStyle={'dashed'} flex="1" marginTop={2} />{' '}
-                                    <Text as={'p'} textStyle={'p'} marginTop={2}>
-                                        {blog.fields.content.content[0].content[0].value}
-                                    </Text>
+                                    <Flex
+                                        gap={1}
+                                        flexDirection={'row'}
+                                        alignItems={'center'}
+                                        height={'100%'}
+                                        justifyContent={'center'}
+                                        pt={1}
+                                    >
+                                        <Image src={_assets.CALENDAR_ICON} alt="" height={24} width={24} />
+                                        <Text as={'p'} textStyle={'p'} pt={1}>
+                                            {new Date(blog.fields.date).toLocaleDateString()}
+                                        </Text>
+                                    </Flex>
                                 </Flex>
                             </Flex>
                         )

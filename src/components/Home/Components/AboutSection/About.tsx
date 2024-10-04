@@ -1,5 +1,5 @@
 import { Box, Divider, Text, Flex, Image as ChakraImage, Stack } from '@chakra-ui/react'
-import * as assets from '@/assets' // Adjust the import path as necessary
+import * as assets from '@/assets'
 
 export function AboutSection() {
     return (
@@ -23,9 +23,8 @@ export function AboutSection() {
                     />
                 </Box>
                 <Text>
-                    My Endless Adventure is een reisblog waar ik al mijn ervaringen en tips deel, zodat jullie het beste
-                    uit jullie reis kunnen halen en een onvergetelijke ervaring zullen hebben.
-                    <br />
+                    My Endless Adventures is een reisblog waar ik al mijn ervaringen en tips deel, zodat jullie het
+                    beste uit jullie reis kunnen halen en een onvergetelijke ervaring zullen hebben.
                     <br />
                     liefs Imani.
                 </Text>

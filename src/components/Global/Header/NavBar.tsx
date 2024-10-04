@@ -25,10 +25,11 @@ const defaultLottieStyle = {
 }
 
 const menuItems = [
-    { name: 'Blogs', href: '/' },
-    { name: 'Bestemmingen', href: '/' },
-    { name: 'Over mij', href: '/' },
-    { name: 'Contact', href: '/' },
+    { name: 'Blogs', href: '/blogs' },
+    { name: 'Tips', href: '/tips' },
+    { name: 'Gidsen', href: '/gidsen' },
+    { name: 'Bestemmingen', href: '/bestemmingen' },
+    { name: 'Over mij', href: '/over-mij' },
 ]
 
 export const NavBar = () => {
@@ -142,11 +143,12 @@ const NavBarContainer = ({ children, ...props }: { children: React.ReactNode }) 
             justify="space-between"
             wrap="wrap"
             w="100%"
-            // mb={8}
-            p={8}
+            p={4}
             bg={{ base: 'black', md: 'black' }}
             color={{ base: 'white', md: 'white' }}
             {...props}
+            // borderBottom={'1px solid #E2E8F0'}
+            mb={{ base: 0, md: 4 }}
         >
             {children}
         </Flex>
