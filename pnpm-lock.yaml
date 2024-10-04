@@ -29,6 +29,9 @@ dependencies:
   leaflet:
     specifier: ^1.9.4
     version: 1.9.4
+  leaflet-defaulticon-compatibility:
+    specifier: ^0.1.2
+    version: 0.1.2
   lottie-react:
     specifier: ^2.4.0
     version: 2.4.0(react-dom@18.3.1)(react@18.3.1)
@@ -2511,6 +2514,10 @@ packages:
 
   /json-stringify-safe@5.0.1:
     resolution: {integrity: sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==}
+    dev: false
+
+  /leaflet-defaulticon-compatibility@0.1.2:
+    resolution: {integrity: sha512-IrKagWxkTwzxUkFIumy/Zmo3ksjuAu3zEadtOuJcKzuXaD76Gwvg2Z1mLyx7y52ykOzM8rAH5ChBs4DnfdGa6Q==}
     dev: false
 
   /leaflet@1.9.4:
