@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+    images: {
+        domains: ['images.ctfassets.net'], // Add the domain you are loading images from
+    },
+}
 
-export default nextConfig;
+export default nextConfig

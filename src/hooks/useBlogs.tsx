@@ -41,11 +41,21 @@ export const useBlogs = () => {
 
             const assetMap = data.includes.Asset.reduce(
                 (acc, asset) => {
-                    acc[asset.sys.id] = asset
+                    acc[asset.sys.id] = {
+                        ...asset,
+                        fields: {
+                            ...asset.fields,
+                            file: {
+                                ...asset.fields.file,
+                                url: `https://${asset.fields.file.url.slice(2)}`,
+                            },
+                        },
+                    }
                     return acc
                 },
                 {} as Record<string, consts.IBlogAsset>
             )
+            console.log(assetMap)
             setAssets(assetMap)
         } catch (error) {
             console.error('Error fetching blog posts:', error)

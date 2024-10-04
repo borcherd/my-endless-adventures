@@ -19,7 +19,7 @@ export const BlogCard = ({
 }) => {
     return (
         <Flex gap={2} width={'100%'}>
-            <Image src={imageUrl} alt={''} height={24} width={24} className="rounded-md" />
+            <Image src={imageUrl} alt={''} height={96} width={96} className=" rounded-md" />
             <Flex flexDirection={'column'} width={'75%'}>
                 <Box maxWidth="100%" overflow="hidden">
                     <Text as="h3" textStyle="h3">
